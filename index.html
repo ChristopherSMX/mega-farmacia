@@ -1,12 +1,248 @@
 
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Sistema web de gestión para Mega Farmacia">
+
+    <meta name="author"
+          content="Proyecto Mega Farmacia">
+
+    <title>Mega Farmacia | Inicio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            font-weight: normal;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #263238;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 70px auto;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 35px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .login-button {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #263238;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .login-button:hover {
+            opacity: 0.85;
+        }
+
+        .modules {
+            max-width: 1100px;
+            margin: 0 auto 70px;
+            padding: 0 30px;
+        }
+
+        .modules h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .module {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .module h3 {
+            margin-bottom: 10px;
+        }
+
+        .module p {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .hero {
+                margin: 30px auto;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Hello World!</h1>
-    <p>¡Hola, mundo!</p>
+
+    <header>
+        <div class="logo">
+            Mega <span>Farmacia</span>
+        </div>
+
+        <nav aria-label="Navegación principal">
+            <a href="#inicio">Inicio</a>
+            <a href="#modulos">Módulos</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <h1>Sistema Mega Farmacia</h1>
+
+            <p>
+                Plataforma web para la gestión integral de medicamentos,
+                productos, inventario, usuarios, pedidos y operaciones
+                de la Mega Farmacia.
+            </p>
+
+            <a class="login-button" href="pages/login.html">
+                Iniciar sesión
+            </a>
+
+        </section>
+
+        <section class="modules" id="modulos">
+
+            <h2>Módulos del sistema</h2>
+
+            <div class="module-grid">
+
+                <article class="module">
+                    <h3>Usuarios</h3>
+                    <p>
+                        Administración de usuarios, roles y permisos
+                        mediante control de acceso basado en roles.
+                    </p>
+                </article>
+
+                <article class="module">
+                    <h3>Medicamentos</h3>
+                    <p>
+                        Registro, consulta y administración de
+                        medicamentos y productos.
+                    </p>
+                </article>
+
+                <article class="module">
+                    <h3>Inventario</h3>
+                    <p>
+                        Control de existencias, entradas, salidas
+                        y niveles de inventario.
+                    </p>
+                </article>
+
+                <article class="module">
+                    <h3>Pedidos</h3>
+                    <p>
+                        Gestión y seguimiento de pedidos y operaciones
+                        relacionadas con los productos.
+                    </p>
+                </article>
+
+                <article class="module">
+                    <h3>Auditoría</h3>
+                    <p>
+                        Registro y seguimiento de operaciones relevantes
+                        realizadas dentro del sistema.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            Proyecto Mega Farmacia © 2026
+        </p>
+    </footer>
+
 </body>
 </html>
+```
+
