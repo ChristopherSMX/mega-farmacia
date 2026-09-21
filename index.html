@@ -1,4 +1,5 @@
 
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,10 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Sistema web de gestión para Mega Farmacia">
+          content="Sistema web de gestión integral para Mega Farmacia SIAL, con control de acceso RBAC, autenticación multifactor y auditoría de operaciones.">
 
-   <meta name="author"
-      content="Christopher Rainier Escalante Trejo - AL3505539">
+    <meta name="author"
+          content="Christopher Rainier Escalante Trejo - AL3505539">
+
+    <meta name="keywords"
+          content="Mega Farmacia, SIAL, farmacia, medicamentos, inventario, RBAC, MFA, 2FA, seguridad">
 
     <title>Mega Farmacia SIAL | Inicio</title>
 
@@ -25,6 +29,7 @@
             background: #f4f6f8;
             color: #263238;
             min-height: 100vh;
+            line-height: 1.5;
         }
 
         header {
@@ -45,6 +50,11 @@
             font-weight: normal;
         }
 
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
         nav a {
             text-decoration: none;
             color: #263238;
@@ -54,6 +64,10 @@
 
         nav a:hover {
             text-decoration: underline;
+        }
+
+        .login-nav {
+            font-weight: bold;
         }
 
         .hero {
@@ -69,10 +83,20 @@
         }
 
         .hero p {
-            max-width: 700px;
+            max-width: 750px;
             margin: 0 auto 35px;
             font-size: 18px;
             line-height: 1.6;
+        }
+
+        .security-info {
+            max-width: 750px;
+            margin: 0 auto 30px;
+            padding: 15px 20px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
         .login-button {
@@ -122,6 +146,10 @@
             font-size: 14px;
         }
 
+        .security-module {
+            border-left: 4px solid #263238;
+        }
+
         footer {
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
@@ -130,11 +158,26 @@
             font-size: 13px;
         }
 
+        footer p {
+            margin-bottom: 5px;
+        }
+
+        .security-footer {
+            color: #546e7a;
+        }
+
         @media (max-width: 700px) {
+
             header {
                 padding: 15px 20px;
                 flex-direction: column;
                 gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
             }
 
             nav a {
@@ -143,10 +186,19 @@
 
             .hero {
                 margin: 30px auto;
+                padding: 30px 20px;
             }
 
             .hero h1 {
                 font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .modules {
+                padding: 0 20px;
             }
         }
     </style>
@@ -155,6 +207,7 @@
 <body>
 
     <header>
+
         <div class="logo">
             Mega <span>Farmacia</span>
         </div>
@@ -162,12 +215,16 @@
         <nav aria-label="Navegación principal">
             <a href="#inicio">Inicio</a>
             <a href="#modulos">Módulos</a>
-            <a href="pages/login.html">Iniciar sesión</a>
+            <a class="login-nav" href="pages/login.html">
+                Iniciar sesión
+            </a>
         </nav>
+
     </header>
 
     <main>
 
+        <!-- Página principal -->
         <section class="hero" id="inicio">
 
             <h1>Sistema Mega Farmacia SIAL</h1>
@@ -178,55 +235,122 @@
                 de la Mega Farmacia.
             </p>
 
+            <div class="security-info">
+                <strong>Seguridad:</strong>
+                El sistema utiliza control de acceso basado en roles y
+                permisos (RBAC), autenticación multifactor (MFA/2FA)
+                y auditoría de operaciones.
+            </div>
+
             <a class="login-button" href="pages/login.html">
                 Iniciar sesión
             </a>
 
         </section>
 
+
+        <!-- Módulos del sistema -->
         <section class="modules" id="modulos">
 
             <h2>Módulos del sistema</h2>
 
             <div class="module-grid">
 
+                <!-- Usuarios -->
                 <article class="module">
-                    <h3>Usuarios</h3>
+                    <h3>Usuarios, Roles y Permisos</h3>
                     <p>
-                        Administración de usuarios, roles y permisos
-                        mediante control de acceso basado en roles.
+                        Administración de usuarios y asignación de roles
+                        mediante control de acceso basado en roles (RBAC),
+                        con permisos específicos para cada acción.
                     </p>
                 </article>
 
+
+                <!-- Seguridad -->
+                <article class="module security-module">
+                    <h3>Seguridad y MFA</h3>
+                    <p>
+                        Protección de cuentas mediante autenticación
+                        multifactor (MFA/2FA) basada en TOTP, compatible
+                        con aplicaciones autenticadoras como
+                        Google Authenticator.
+                    </p>
+                </article>
+
+
+                <!-- Medicamentos -->
                 <article class="module">
-                    <h3>Medicamentos</h3>
+                    <h3>Medicamentos y Productos</h3>
                     <p>
                         Registro, consulta y administración de
-                        medicamentos y productos.
+                        medicamentos, productos, categorías y
+                        datos asociados.
                     </p>
                 </article>
 
+
+                <!-- Inventario -->
                 <article class="module">
                     <h3>Inventario</h3>
                     <p>
-                        Control de existencias, entradas, salidas
-                        y niveles de inventario.
+                        Control de existencias, entradas, salidas,
+                        niveles de inventario y movimientos de
+                        productos.
                     </p>
                 </article>
 
+
+                <!-- Recepción -->
                 <article class="module">
-                    <h3>Pedidos</h3>
+                    <h3>Recepción de Medicamentos</h3>
                     <p>
-                        Gestión y seguimiento de pedidos y operaciones
-                        relacionadas con los productos.
+                        Registro y control de la recepción de
+                        medicamentos y productos provenientes
+                        de proveedores.
                     </p>
                 </article>
 
+
+                <!-- Pedidos -->
+                <article class="module">
+                    <h3>Pedidos y Requerimientos</h3>
+                    <p>
+                        Generación, gestión, seguimiento y control
+                        de pedidos y requerimientos de productos.
+                    </p>
+                </article>
+
+
+                <!-- Devoluciones -->
+                <article class="module">
+                    <h3>Devoluciones</h3>
+                    <p>
+                        Gestión y seguimiento de devoluciones de
+                        medicamentos y productos conforme a los
+                        procedimientos establecidos.
+                    </p>
+                </article>
+
+
+                <!-- Reportes -->
+                <article class="module">
+                    <h3>Reportes e Indicadores</h3>
+                    <p>
+                        Consulta de información operativa, indicadores
+                        y reportes para apoyar la supervisión y toma
+                        de decisiones.
+                    </p>
+                </article>
+
+
+                <!-- Auditoría -->
                 <article class="module">
                     <h3>Auditoría</h3>
                     <p>
-                        Registro y seguimiento de operaciones relevantes
-                        realizadas dentro del sistema.
+                        Registro y seguimiento de operaciones relevantes,
+                        acciones críticas y eventos de seguridad
+                        realizados dentro del sistema.
                     </p>
                 </article>
 
@@ -236,10 +360,17 @@
 
     </main>
 
+
     <footer>
+
         <p>
             Proyecto Mega Farmacia SIAL CRET AL3505539 © 2026
         </p>
+
+        <p class="security-footer">
+            Sistema protegido mediante RBAC, MFA/2FA y auditoría.
+        </p>
+
     </footer>
 
 </body>
