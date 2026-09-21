@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Inicio de sesión del sistema Mega Farmacia">
+          content="Inicio de sesión seguro del sistema Mega Farmacia SIAL">
 
-    <title>Mega Farmacia | Iniciar sesión</title>
+    <meta name="author"
+          content="Christopher Rainier Escalante Trejo - AL3505539">
+
+    <title>Mega Farmacia SIAL | Iniciar sesión</title>
 
     <style>
         * {
@@ -22,39 +26,56 @@
             color: #263238;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-            padding: 20px;
-        }
-
-        .login-card {
+        header {
             background: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 40px;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 18px 40px;
         }
 
         .logo {
-            text-align: center;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
         }
 
         .logo span {
             font-weight: normal;
         }
 
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-card h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
         .subtitle {
             text-align: center;
             color: #607d8b;
-            margin-bottom: 30px;
             font-size: 14px;
+            margin-bottom: 30px;
         }
 
         .form-group {
@@ -70,15 +91,16 @@
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 14px;
             border: 1px solid #b0bec5;
             border-radius: 6px;
             font-size: 15px;
         }
 
         input:focus {
-            outline: 2px solid #90a4ae;
-            border-color: #546e7a;
+            outline: none;
+            border-color: #263238;
+            box-shadow: 0 0 0 2px rgba(38, 50, 56, 0.1);
         }
 
         .login-button {
@@ -93,7 +115,22 @@
         }
 
         .login-button:hover {
-            opacity: 0.85;
+            opacity: 0.9;
+        }
+
+        .security-info {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f4f6f8;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #455a64;
+        }
+
+        .security-info strong {
+            display: block;
+            margin-bottom: 5px;
         }
 
         .back-link {
@@ -109,88 +146,159 @@
             text-decoration: underline;
         }
 
-        .security-message {
-            margin-top: 25px;
+        .error-message {
+            display: none;
+            margin-bottom: 20px;
             padding: 12px;
-            background: #f5f5f5;
             border-radius: 6px;
-            font-size: 12px;
-            color: #607d8b;
+            background: #ffebee;
+            border: 1px solid #ef9a9a;
+            color: #b71c1c;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
             text-align: center;
-            line-height: 1.5;
+            padding: 18px;
+            font-size: 13px;
+            color: #607d8b;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .login-card {
+                padding: 25px 20px;
+            }
+
+            .login-card h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <main class="login-container">
+    <header>
+        <div class="logo">
+            Mega <span>Farmacia</span>
+        </div>
+    </header>
 
-        <section class="login-card">
+    <main>
 
-            <div class="logo">
-                Mega <span>Farmacia</span>
-            </div>
+        <div class="login-container">
 
-            <p class="subtitle">
-                Acceso al sistema de gestión
-            </p>
+            <section class="login-card" aria-labelledby="login-title">
 
-            <form id="loginForm">
-
-                <div class="form-group">
-                    <label for="username">
-                        Usuario
-                    </label>
-
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        autocomplete="username"
-                        required
-                        maxlength="100"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="password">
-                        Contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        autocomplete="current-password"
-                        required
-                        maxlength="128"
-                    >
-                </div>
-
-                <button
-                    type="submit"
-                    class="login-button">
+                <h1 id="login-title">
                     Iniciar sesión
-                </button>
+                </h1>
 
-            </form>
+                <p class="subtitle">
+                    Acceso seguro al sistema Mega Farmacia SIAL
+                </p>
 
-            <a
-                href="../index.html"
-                class="back-link">
-                ← Regresar al inicio
-            </a>
+                <!--
+                    Los mensajes reales de autenticación deberán
+                    ser gestionados por el backend.
+                -->
+                <div
+                    id="error-message"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite">
+                </div>
 
-            <div class="security-message">
-                Este formulario corresponde a la interfaz inicial.
-                La autenticación será implementada posteriormente
-                mediante mecanismos seguros.
-            </div>
+                <form id="login-form"
+                      method="POST"
+                      action="/api/auth/login/">
 
-        </section>
+                    <div class="form-group">
+
+                        <label for="username">
+                            Usuario o correo electrónico
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            autocomplete="username"
+                            required
+                            maxlength="150"
+                            placeholder="Ingrese su usuario">
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            autocomplete="current-password"
+                            required
+                            minlength="8"
+                            maxlength="128"
+                            placeholder="Ingrese su contraseña">
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-button">
+                        Continuar
+                    </button>
+
+                </form>
+
+
+                <div class="security-info">
+
+                    <strong>Autenticación multifactor (MFA)</strong>
+
+                    Después de validar sus credenciales, el sistema
+                    solicitará un código de autenticación de seis
+                    dígitos generado mediante TOTP.
+
+                    <br><br>
+
+                    El sistema es compatible con aplicaciones
+                    autenticadoras como Google Authenticator.
+                </div>
+
+
+                <a
+                    class="back-link"
+                    href="../index.html">
+                    ← Volver al inicio
+                </a>
+
+            </section>
+
+        </div>
 
     </main>
+
+
+    <footer>
+
+        <p>
+            Proyecto Mega Farmacia SIAL CRET AL3505539 © 2026
+        </p>
+
+    </footer>
 
 </body>
 </html>
