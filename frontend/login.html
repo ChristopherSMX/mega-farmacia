@@ -1,304 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="Inicio de sesión seguro del sistema Mega Farmacia SIAL">
-
-    <meta name="author"
-          content="Christopher Rainier Escalante Trejo - AL3505539">
-
-    <title>Mega Farmacia SIAL | Iniciar sesión</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #263238;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 18px 40px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            font-weight: normal;
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 430px;
-        }
-
-        .login-card {
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 35px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .login-card h1 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #607d8b;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #b0bec5;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #263238;
-            box-shadow: 0 0 0 2px rgba(38, 50, 56, 0.1);
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 6px;
-            background: #263238;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .login-button:hover {
-            opacity: 0.9;
-        }
-
-        .security-info {
-            margin-top: 25px;
-            padding: 15px;
-            background: #f4f6f8;
-            border-radius: 6px;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #455a64;
-        }
-
-        .security-info strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #455a64;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            display: none;
-            margin-bottom: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            background: #ffebee;
-            border: 1px solid #ef9a9a;
-            color: #b71c1c;
-            font-size: 14px;
-        }
-
-        footer {
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            padding: 18px;
-            font-size: 13px;
-            color: #607d8b;
-        }
-
-        @media (max-width: 600px) {
-
-            header {
-                padding: 15px 20px;
-            }
-
-            .login-card {
-                padding: 25px 20px;
-            }
-
-            .login-card h1 {
-                font-size: 24px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inicio de sesión seguro del sistema Mega Farmacia SIALI.">
+  <meta name="author" content="Christopher Rainier Escalante Trejo">
+  <title>Mega Farmacia SIALI | Iniciar sesión</title>
+  <style>
+    :root{--navy:#092c5c;--navy2:#123f7b;--blue:#0875e1;--blue2:#0b63c7;--ink:#102e5d;--muted:#637995;--line:#d9e7f7;--bg:#f2f7fd;--white:#fff;--red:#b42332}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
+    .topbar{height:76px;display:flex;align-items:center;background:#fff;border-bottom:1px solid var(--line);padding:0 max(24px,calc((100% - 1200px)/2))}
+    .brand{display:flex;align-items:center;gap:12px;color:var(--navy);text-decoration:none;font-weight:800;font-size:20px;line-height:1.1}
+    .brand-mark{height:42px;width:42px;border-radius:13px;background:linear-gradient(145deg,var(--blue),var(--navy));color:#fff;display:grid;place-items:center;font-size:23px}
+    .brand small{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:4px}
+    main{flex:1;display:grid;place-items:center;padding:38px 22px}
+    .login-layout{width:min(100%,1000px);min-height:570px;display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 22px 60px #0c3d7517}
+    .welcome-panel{position:relative;overflow:hidden;padding:48px 42px;background:linear-gradient(150deg,#092c5c,#104b8e 68%,#0875e1);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+    .welcome-panel:before,.welcome-panel:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;width:310px;height:310px;right:-130px;top:90px}
+    .welcome-panel:after{width:420px;height:420px;right:-180px;top:35px}
+    .welcome-content,.welcome-footer{position:relative;z-index:1}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff35;background:#ffffff12;border-radius:99px;padding:7px 12px;font-size:11px;font-weight:750;letter-spacing:.6px;margin-bottom:22px}
+    .welcome-panel h1{font-size:36px;line-height:1.15;letter-spacing:-.7px;margin-bottom:16px}
+    .welcome-panel .intro{color:#d9eaff;font-size:15px;max-width:360px}
+    .feature-list{display:grid;gap:13px;margin-top:30px}
+    .feature{display:flex;align-items:center;gap:12px;color:#f1f7ff;font-size:13px}
+    .feature-icon{height:32px;width:32px;border-radius:10px;background:#ffffff18;border:1px solid #ffffff20;display:grid;place-items:center}
+    .welcome-footer{font-size:12px;color:#c5ddf8;border-top:1px solid #ffffff2a;padding-top:20px;margin-top:36px}
+    .form-panel{padding:48px 46px;display:flex;flex-direction:column;justify-content:center}
+    .form-icon{height:52px;width:52px;border-radius:15px;display:grid;place-items:center;background:#e9f3ff;color:var(--blue);font-size:25px;margin-bottom:20px}
+    .form-panel h2{font-size:27px;letter-spacing:-.5px;margin-bottom:7px}
+    .subtitle{color:var(--muted);font-size:14px;margin-bottom:28px}
+    .error-message{display:none;margin-bottom:18px;padding:12px 13px;border-radius:10px;background:#fff0f1;border:1px solid #ffc9cf;color:var(--red);font-size:13px}
+    .form-group{margin-bottom:19px}
+    label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}
+    .input-wrap{position:relative}
+    .input-wrap .input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#7890ad;font-size:16px;pointer-events:none}
+    input{width:100%;padding:13px 14px 13px 42px;border:1px solid #cad9eb;border-radius:10px;background:#fbfdff;font-size:14px;color:var(--ink);outline:none;transition:.2s}
+    input::placeholder{color:#91a4bc}
+    input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #0875e11a;background:#fff}
+    .login-button{width:100%;border:0;border-radius:10px;padding:14px;background:var(--blue);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px #0875e129;transition:.2s}
+    .login-button:hover{background:var(--blue2);transform:translateY(-1px)}
+    .login-button:focus-visible,.back-link:focus-visible{outline:3px solid #82baff;outline-offset:3px}
+    .security-info{display:flex;gap:12px;margin-top:22px;padding:15px;background:#eff6ff;border:1px solid #d7e9ff;border-radius:12px;color:#496684;font-size:12px;line-height:1.55}
+    .security-symbol{font-size:20px;color:var(--blue);flex-shrink:0}
+    .security-info strong{display:block;color:var(--ink);font-size:12px;margin-bottom:3px}
+    .back-link{display:block;text-align:center;margin-top:22px;text-decoration:none;color:#42648a;font-size:13px;font-weight:650}
+    .back-link:hover{color:var(--blue);text-decoration:underline}
+    footer{text-align:center;padding:18px 20px;color:#6e829d;font-size:12px}
+    @media(max-width:760px){.login-layout{grid-template-columns:1fr;max-width:500px}.welcome-panel{padding:30px;min-height:270px}.welcome-panel h1{font-size:29px}.welcome-footer{margin-top:24px}.form-panel{padding:34px 28px}}
+    @media(max-width:420px){.topbar{height:68px;padding:0 18px}.brand{font-size:17px}.brand-mark{height:38px;width:38px}main{padding:20px 12px}.welcome-panel{padding:25px 22px}.form-panel{padding:28px 21px}.form-panel h2{font-size:24px}}
+  </style>
 </head>
-
 <body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Mega Farmacia SIALI, volver al inicio">
+      <span class="brand-mark" aria-hidden="true">✚</span>
+      <span>Mega Farmacia<small>S I A L I</small></span>
+    </a>
+  </header>
 
-    <header>
-        <div class="logo">
-            Mega <span>Farmacia</span>
+  <main>
+    <div class="login-layout">
+      <section class="welcome-panel" aria-label="Información del sistema">
+        <div class="welcome-content">
+          <div class="pill"><span aria-hidden="true">●</span> PORTAL DE ACCESO SEGURO</div>
+          <h1>Bienvenido a Mega Farmacia SIALI</h1>
+          <p class="intro">Ingresa con tus credenciales para administrar medicamentos, lotes y operaciones del sistema.</p>
+          <div class="feature-list">
+            <div class="feature"><span class="feature-icon" aria-hidden="true">✓</span><span>Control de acceso por roles y permisos</span></div>
+            <div class="feature"><span class="feature-icon" aria-hidden="true">▦</span><span>Gestión y trazabilidad del inventario</span></div>
+            <div class="feature"><span class="feature-icon" aria-hidden="true">⛨</span><span>Verificación adicional mediante MFA</span></div>
+          </div>
         </div>
-    </header>
+        <div class="welcome-footer">Sistema de gestión integral de inventario y operación.</div>
+      </section>
 
-    <main>
+      <section class="form-panel" aria-labelledby="login-title">
+        <div class="form-icon" aria-hidden="true">♙</div>
+        <h2 id="login-title">Iniciar sesión</h2>
+        <p class="subtitle">Introduce tus credenciales para continuar.</p>
 
-        <div class="login-container">
+        <div id="error-message" class="error-message" role="alert" aria-live="polite"></div>
 
-            <section class="login-card" aria-labelledby="login-title">
+        <form id="login-form" method="POST" action="/api/auth/login/">
+          <div class="form-group">
+            <label for="username">Usuario o correo electrónico</label>
+            <div class="input-wrap">
+              <span class="input-icon" aria-hidden="true">♙</span>
+              <input type="text" id="username" name="username" autocomplete="username" required maxlength="150" placeholder="Ingresa tu usuario">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrap">
+              <span class="input-icon" aria-hidden="true">▣</span>
+              <input type="password" id="password" name="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="Ingresa tu contraseña">
+            </div>
+          </div>
+          <button type="submit" class="login-button">Continuar <span aria-hidden="true">→</span></button>
+        </form>
 
-                <h1 id="login-title">
-                    Iniciar sesión
-                </h1>
-
-                <p class="subtitle">
-                    Acceso seguro al sistema Mega Farmacia SIAL
-                </p>
-
-                <!--
-                    Los mensajes reales de autenticación deberán
-                    ser gestionados por el backend.
-                -->
-                <div
-                    id="error-message"
-                    class="error-message"
-                    role="alert"
-                    aria-live="polite">
-                </div>
-
-                <form id="login-form"
-                      method="POST"
-                      action="/api/auth/login/">
-
-                    <div class="form-group">
-
-                        <label for="username">
-                            Usuario o correo electrónico
-                        </label>
-
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            autocomplete="username"
-                            required
-                            maxlength="150"
-                            placeholder="Ingrese su usuario">
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="password">
-                            Contraseña
-                        </label>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            autocomplete="current-password"
-                            required
-                            minlength="8"
-                            maxlength="128"
-                            placeholder="Ingrese su contraseña">
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="login-button">
-                        Continuar
-                    </button>
-
-                </form>
-
-
-                <div class="security-info">
-
-                    <strong>Autenticación multifactor (MFA)</strong>
-
-                    Después de validar sus credenciales, el sistema
-                    solicitará un código de autenticación de seis
-                    dígitos generado mediante TOTP.
-
-                    <br><br>
-
-                    El sistema es compatible con aplicaciones
-                    autenticadoras como Google Authenticator.
-                </div>
-
-
-                <a
-                    class="back-link"
-                    href="../index.html">
-                    ← Volver al inicio
-                </a>
-
-            </section>
-
+        <div class="security-info">
+          <span class="security-symbol" aria-hidden="true">⛨</span>
+          <div><strong>Autenticación multifactor (MFA)</strong>Después de validar las credenciales, el sistema puede solicitar un código temporal de seis dígitos generado por una aplicación compatible con TOTP, como Google Authenticator.</div>
         </div>
+        <a class="back-link" href="index.html">← Volver a la página principal</a>
+      </section>
+    </div>
+  </main>
 
-    </main>
-
-
-    <footer>
-
-        <p>
-            Proyecto Mega Farmacia SIAL CRET AL3505539 © 2026
-        </p>
-
-    </footer>
-
+  <footer>Proyecto Mega Farmacia SIALI · © 2026</footer>
 </body>
 </html>
-```
