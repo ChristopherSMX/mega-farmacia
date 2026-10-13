@@ -2,377 +2,142 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="Sistema web de gestión integral para Mega Farmacia SIALI, con control de acceso RBAC, autenticación multifactor y auditoría de operaciones.">
-
-    <meta name="author"
-          content="Christopher Rainier Escalante Trejo - AL3505539">
-
-    <meta name="keywords"
-          content="Mega Farmacia, SIAL, farmacia, medicamentos, inventario, RBAC, MFA, 2FA, seguridad">
-
-    <title>Mega Farmacia SIAL | Inicio</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #263238;
-            min-height: 100vh;
-            line-height: 1.5;
-        }
-
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            font-weight: normal;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #263238;
-            margin-left: 25px;
-            font-size: 15px;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        .login-nav {
-            font-weight: bold;
-        }
-
-        .hero {
-            max-width: 1100px;
-            margin: 70px auto;
-            padding: 50px 30px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            max-width: 750px;
-            margin: 0 auto 35px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .security-info {
-            max-width: 750px;
-            margin: 0 auto 30px;
-            padding: 15px 20px;
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .login-button {
-            display: inline-block;
-            padding: 14px 30px;
-            background: #263238;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        .login-button:hover {
-            opacity: 0.85;
-        }
-
-        .modules {
-            max-width: 1100px;
-            margin: 0 auto 70px;
-            padding: 0 30px;
-        }
-
-        .modules h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .module {
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 25px;
-        }
-
-        .module h3 {
-            margin-bottom: 10px;
-        }
-
-        .module p {
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        .security-module {
-            border-left: 4px solid #263238;
-        }
-
-        footer {
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            padding: 20px;
-            font-size: 13px;
-        }
-
-        footer p {
-            margin-bottom: 5px;
-        }
-
-        .security-footer {
-            color: #546e7a;
-        }
-
-        @media (max-width: 700px) {
-
-            header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
-
-            nav a {
-                margin: 0 8px;
-            }
-
-            .hero {
-                margin: 30px auto;
-                padding: 30px 20px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .modules {
-                padding: 0 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mega Farmacia SIALI: gestión integral de medicamentos, inventario, lotes y seguridad.">
+  <meta name="author" content="Christopher Rainier Escalante Trejo">
+  <title>Mega Farmacia SIALI | Inicio</title>
+  <style>
+    :root{--navy:#092c5c;--navy2:#123f7b;--blue:#0875e1;--blue2:#0b63c7;--ink:#102e5d;--muted:#627894;--line:#d9e7f7;--bg:#f4f8fd;--white:#fff;--green:#07966b}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+    a{color:inherit}
+    .topbar{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+    .navwrap{max-width:1240px;margin:auto;padding:15px 26px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--navy);font-weight:800;font-size:21px;line-height:1.1}
+    .brand-mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,var(--blue),var(--navy));display:grid;place-items:center;color:white;font-size:24px;box-shadow:0 8px 18px #0b63c72b}
+    .brand small{display:block;font-size:11px;letter-spacing:2px;color:var(--muted);font-weight:700;margin-top:4px}
+    nav{display:flex;align-items:center;gap:26px}
+    nav a{text-decoration:none;font-size:14px;font-weight:650;color:#395578}
+    nav a:hover{color:var(--blue)}
+    .nav-cta,.button{display:inline-flex;justify-content:center;align-items:center;gap:9px;padding:12px 20px;border-radius:10px;background:var(--blue);color:#fff;text-decoration:none;font-weight:750;border:1px solid var(--blue);box-shadow:0 7px 16px #0875e126;transition:.2s}
+    .nav-cta:hover,.button:hover{background:var(--blue2);transform:translateY(-1px)}
+    .hero{max-width:1240px;margin:34px auto 26px;padding:0 26px}
+    .hero-panel{position:relative;overflow:hidden;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;min-height:420px;padding:54px;border-radius:24px;background:linear-gradient(115deg,#082b59 0%,#104b8e 64%,#0875e1 100%);color:#fff;box-shadow:0 18px 44px #0c3d7520}
+    .hero-panel:after{content:"";position:absolute;width:370px;height:370px;border:1px solid #ffffff24;border-radius:50%;right:-100px;top:-110px;box-shadow:0 0 0 35px #ffffff0a,0 0 0 75px #ffffff08}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#ffffff16;border:1px solid #ffffff2a;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:750;letter-spacing:.5px;margin-bottom:18px}
+    h1{font-size:clamp(34px,4.2vw,52px);line-height:1.12;letter-spacing:-1.4px;margin-bottom:18px;max-width:650px}
+    .hero-copy>p{font-size:17px;max-width:610px;color:#e2efff;margin-bottom:26px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .button.light{background:#fff;color:var(--navy);border-color:#fff;box-shadow:none}
+    .button.outline{background:transparent;border-color:#ffffff85;box-shadow:none}
+    .hero-art{position:relative;z-index:1;display:grid;place-items:center;min-height:260px}
+    .art-card{width:min(100%,360px);background:#ffffff12;border:1px solid #ffffff35;backdrop-filter:blur(8px);border-radius:22px;padding:25px;box-shadow:0 18px 45px #001d4433}
+    .art-icon{font-size:58px;text-align:center;margin-bottom:8px}
+    .art-card h2{text-align:center;font-size:22px;margin-bottom:5px}
+    .art-card>p{text-align:center;color:#d8eaff;font-size:13px;margin-bottom:20px}
+    .mini-stat{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;margin-top:9px;background:#ffffff13;border:1px solid #ffffff20;border-radius:12px;font-size:13px}
+    .mini-stat strong{font-size:14px}
+    .trust-row{max-width:1240px;margin:0 auto 34px;padding:0 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .trust-item{display:flex;align-items:center;gap:13px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 18px #153e7010}
+    .trust-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:#e8f2ff;color:var(--blue);font-size:20px}
+    .trust-item strong{display:block;font-size:14px}
+    .trust-item span{display:block;color:var(--muted);font-size:12px}
+    .section{max-width:1240px;margin:0 auto;padding:18px 26px 48px}
+    .section-head{text-align:center;margin-bottom:24px}
+    .section-head h2{font-size:28px;letter-spacing:-.5px;margin-bottom:6px}
+    .section-head p{color:var(--muted);font-size:14px}
+    .module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .module{background:#fff;border:1px solid var(--line);border-radius:17px;padding:23px;box-shadow:0 7px 20px #153e700a;transition:.2s}
+    .module:hover{transform:translateY(-3px);box-shadow:0 13px 28px #153e7015}
+    .module-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:#eaf3ff;color:var(--blue);font-size:22px;margin-bottom:15px}
+    .module h3{font-size:17px;margin-bottom:7px}
+    .module p{font-size:13px;color:var(--muted)}
+    .security-band{max-width:1188px;margin:0 auto 46px;padding:25px 28px;border-radius:18px;background:#e7f2ff;border:1px solid #cfe3fc;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .security-band h2{font-size:19px;margin-bottom:4px}
+    .security-band p{font-size:13px;color:#456484;max-width:760px}
+    .security-badge{white-space:nowrap;color:var(--green);font-size:13px;font-weight:800;background:#fff;padding:10px 14px;border-radius:10px}
+    footer{background:var(--navy);color:#d8e8fb;padding:24px 26px;text-align:center;font-size:12px}
+    footer strong{color:#fff}
+    @media(max-width:850px){.hero-panel{grid-template-columns:1fr;padding:38px 30px}.hero-art{min-height:220px}.module-grid{grid-template-columns:repeat(2,1fr)}.trust-row{grid-template-columns:1fr}.security-band{margin-left:26px;margin-right:26px;align-items:flex-start;flex-direction:column}}
+    @media(max-width:600px){.navwrap{padding:13px 18px;align-items:flex-start;flex-direction:column;gap:13px}nav{width:100%;gap:17px;flex-wrap:wrap}nav a{font-size:13px}.nav-cta{padding:9px 13px}.hero{margin-top:18px;padding:0 14px}.hero-panel{padding:30px 22px;border-radius:18px}.hero-copy>p{font-size:15px}h1{font-size:35px}.hero-art{min-height:210px}.trust-row,.section{padding-left:14px;padding-right:14px}.module-grid{grid-template-columns:1fr}.section-head h2{font-size:24px}.security-band{margin-left:14px;margin-right:14px;padding:20px}.security-badge{white-space:normal}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  </style>
 </head>
-
 <body>
+  <header class="topbar">
+    <div class="navwrap">
+      <a class="brand" href="index.html" aria-label="Mega Farmacia SIALI, inicio">
+        <span class="brand-mark" aria-hidden="true">✚</span>
+        <span>Mega Farmacia<small>S I A L I</small></span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#modulos">Módulos</a>
+        <a href="#seguridad">Seguridad</a>
+        <a class="nav-cta" href="login.html">Iniciar sesión <span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </header>
 
-    <header>
-
-        <div class="logo">
-            Mega <span>Farmacia</span>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <div class="eyebrow"><span aria-hidden="true">●</span> SISTEMA INTEGRAL DE ABASTO Y LOGÍSTICA</div>
+          <h1>Control inteligente para una gestión farmacéutica segura.</h1>
+          <p>Administra medicamentos, lotes, existencias y movimientos desde una plataforma centralizada, diseñada para favorecer la trazabilidad y el control operativo de Mega Farmacia SIALI.</p>
+          <div class="hero-actions">
+            <a class="button light" href="login.html">Ingresar al sistema <span aria-hidden="true">→</span></a>
+            <a class="button outline" href="#modulos">Explorar módulos</a>
+          </div>
         </div>
+        <div class="hero-art" aria-label="Resumen ilustrativo del sistema">
+          <div class="art-card">
+            <div class="art-icon" aria-hidden="true">⚕</div>
+            <h2>Mega Farmacia SIALI</h2>
+            <p>Gestión integral de inventario y operación</p>
+            <div class="mini-stat"><span>▦ Inventario y lotes</span><strong>Control</strong></div>
+            <div class="mini-stat"><span>◷ Trazabilidad FEFO</span><strong>Seguimiento</strong></div>
+            <div class="mini-stat"><span>♙ Acceso seguro</span><strong>RBAC + MFA</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <nav aria-label="Navegación principal">
-            <a href="#inicio">Inicio</a>
-            <a href="#modulos">Módulos</a>
-            <a class="login-nav" href="pages/login.html">
-                Iniciar sesión
-            </a>
-        </nav>
+    <section class="trust-row" aria-label="Características principales">
+      <article class="trust-item"><div class="trust-icon" aria-hidden="true">▦</div><div><strong>Inventario centralizado</strong><span>Consulta de existencias y lotes.</span></div></article>
+      <article class="trust-item"><div class="trust-icon" aria-hidden="true">◷</div><div><strong>Control de caducidad</strong><span>Seguimiento de fechas y método FEFO.</span></div></article>
+      <article class="trust-item"><div class="trust-icon" aria-hidden="true">✓</div><div><strong>Seguridad por diseño</strong><span>Roles, permisos y autenticación multifactor.</span></div></article>
+    </section>
 
-    </header>
+    <section class="section" id="modulos">
+      <div class="section-head">
+        <h2>Módulos del sistema</h2>
+        <p>Herramientas para controlar las operaciones principales de la megafarmacia.</p>
+      </div>
+      <div class="module-grid">
+        <article class="module"><div class="module-icon" aria-hidden="true">▣</div><h3>Medicamentos y lotes</h3><p>Consulta el catálogo, los códigos de producto, los lotes y sus fechas de caducidad.</p></article>
+        <article class="module"><div class="module-icon" aria-hidden="true">▤</div><h3>Gestión de inventario</h3><p>Controla existencias, entradas, salidas, ajustes y movimientos registrados.</p></article>
+        <article class="module"><div class="module-icon" aria-hidden="true">⇄</div><h3>Entradas y salidas</h3><p>Registra movimientos y conserva la trazabilidad de las operaciones por lote.</p></article>
+        <article class="module"><div class="module-icon" aria-hidden="true">♧</div><h3>Proveedores</h3><p>Administra la información de proveedores vinculados con la recepción de productos.</p></article>
+        <article class="module"><div class="module-icon" aria-hidden="true">▧</div><h3>Reportes y alertas</h3><p>Consulta indicadores operativos y detecta niveles bajos o productos próximos a caducar.</p></article>
+        <article class="module"><div class="module-icon" aria-hidden="true">⛨</div><h3>Usuarios y auditoría</h3><p>Gestiona perfiles de acceso y facilita el seguimiento de acciones relevantes.</p></article>
+      </div>
+    </section>
 
-    <main>
+    <section class="security-band" id="seguridad">
+      <div><h2>La seguridad forma parte de cada operación</h2><p>El sistema contempla control de acceso basado en roles y permisos (RBAC), autenticación multifactor (MFA/2FA) compatible con aplicaciones TOTP y registro de eventos relevantes de auditoría.</p></div>
+      <div class="security-badge">✓ Acceso protegido</div>
+    </section>
+  </main>
 
-        <!-- Página principal -->
-        <section class="hero" id="inicio">
-
-            <h1>Sistema Mega Farmacia SIAL</h1>
-
-            <p>
-                Plataforma web para la gestión integral de medicamentos,
-                productos, inventario, usuarios, pedidos y operaciones
-                de la Mega Farmacia.
-            </p>
-
-            <div class="security-info">
-                <strong>Seguridad:</strong>
-                El sistema utiliza control de acceso basado en roles y
-                permisos (RBAC), autenticación multifactor (MFA/2FA)
-                y auditoría de operaciones.
-            </div>
-
-            <a class="login-button" href="login.html">
-               Iniciar sesión
-             </a>
-
-        </section>
-
-
-        <!-- Módulos del sistema -->
-        <section class="modules" id="modulos">
-
-            <h2>Módulos del sistema</h2>
-
-            <div class="module-grid">
-
-                <!-- Usuarios -->
-                <article class="module">
-                    <h3>Usuarios, Roles y Permisos</h3>
-                    <p>
-                        Administración de usuarios y asignación de roles
-                        mediante control de acceso basado en roles (RBAC),
-                        con permisos específicos para cada acción.
-                    </p>
-                </article>
-
-
-                <!-- Seguridad -->
-                <article class="module security-module">
-                    <h3>Seguridad y MFA</h3>
-                    <p>
-                        Protección de cuentas mediante autenticación
-                        multifactor (MFA/2FA) basada en TOTP, compatible
-                        con aplicaciones autenticadoras como
-                        Google Authenticator.
-                    </p>
-                </article>
-
-
-                <!-- Medicamentos -->
-                <article class="module">
-                    <h3>Medicamentos y Productos</h3>
-                    <p>
-                        Registro, consulta y administración de
-                        medicamentos, productos, categorías y
-                        datos asociados.
-                    </p>
-                </article>
-
-
-                <!-- Inventario -->
-                <article class="module">
-                    <h3>Inventario</h3>
-                    <p>
-                        Control de existencias, entradas, salidas,
-                        niveles de inventario y movimientos de
-                        productos.
-                    </p>
-                </article>
-
-
-                <!-- Recepción -->
-                <article class="module">
-                    <h3>Recepción de Medicamentos</h3>
-                    <p>
-                        Registro y control de la recepción de
-                        medicamentos y productos provenientes
-                        de proveedores.
-                    </p>
-                </article>
-
-
-                <!-- Pedidos -->
-                <article class="module">
-                    <h3>Pedidos y Requerimientos</h3>
-                    <p>
-                        Generación, gestión, seguimiento y control
-                        de pedidos y requerimientos de productos.
-                    </p>
-                </article>
-
-
-                <!-- Devoluciones -->
-                <article class="module">
-                    <h3>Devoluciones</h3>
-                    <p>
-                        Gestión y seguimiento de devoluciones de
-                        medicamentos y productos conforme a los
-                        procedimientos establecidos.
-                    </p>
-                </article>
-
-
-                <!-- Reportes -->
-                <article class="module">
-                    <h3>Reportes e Indicadores</h3>
-                    <p>
-                        Consulta de información operativa, indicadores
-                        y reportes para apoyar la supervisión y toma
-                        de decisiones.
-                    </p>
-                </article>
-
-
-                <!-- Auditoría -->
-                <article class="module">
-                    <h3>Auditoría</h3>
-                    <p>
-                        Registro y seguimiento de operaciones relevantes,
-                        acciones críticas y eventos de seguridad
-                        realizados dentro del sistema.
-                    </p>
-                </article>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        <p>
-            Proyecto Mega Farmacia SIAL CRET AL3505539 © 2026
-        </p>
-
-        <p class="security-footer">
-            Sistema protegido mediante RBAC, MFA/2FA y auditoría.
-        </p>
-
-    </footer>
-
+  <footer>
+    <p><strong>Proyecto Mega Farmacia SIALI</strong> · © 2026</p>
+    <p>Sistema de gestión integral de inventario y operación.</p>
+  </footer>
 </body>
 </html>
-```
+
 
