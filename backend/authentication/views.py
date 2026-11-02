@@ -27,6 +27,25 @@ def _read_json(request):
         return None
 
 
+def _verify_totp_and_get_counter(totp, code, valid_window=1):
+    now = timezone.now()
+    current_counter = totp.timecode(now)
+
+    for offset in range(-valid_window, valid_window + 1):
+        counter = current_counter + offset
+
+        if counter < 0:
+            continue
+
+        if pyotp.utils.strings_equal(
+            str(totp.at(counter * totp.interval)),
+            str(code),
+        ):
+            return counter
+
+    return None
+
+
 def _get_user(username):
     username = str(username or "").strip()
 
@@ -329,9 +348,19 @@ def mfa_verify_view(request):
             status=500,
         )
 
-    verified = pyotp.TOTP(secret).verify(
+    totp = pyotp.TOTP(secret)
+    accepted_counter = _verify_totp_and_get_counter(
+        totp,
         code,
         valid_window=1,
+    )
+
+    verified = (
+        accepted_counter is not None
+        and (
+            mfa.last_accepted_totp_counter is None
+            or accepted_counter > mfa.last_accepted_totp_counter
+        )
     )
 
     if not verified:
@@ -369,10 +398,12 @@ def mfa_verify_view(request):
 
     mfa.is_enabled = True
     mfa.last_verified_at = timezone.now()
+    mfa.last_accepted_totp_counter = accepted_counter
     mfa.save(
         update_fields=[
             "is_enabled",
             "last_verified_at",
+            "last_accepted_totp_counter",
         ]
     )
 

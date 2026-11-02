@@ -15,6 +15,14 @@ class UserMFA(models.Model):
     is_enabled = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_verified_at = models.DateTimeField(null=True, blank=True)
+    last_accepted_totp_counter = models.BigIntegerField(
+        null=True,
+        blank=True,
+        help_text=(
+            "Último contador temporal TOTP aceptado; "
+            "se utiliza para impedir la reutilización de códigos."
+        ),
+    )
 
     def __str__(self):
         return f"MFA de {self.user.get_username()}"
