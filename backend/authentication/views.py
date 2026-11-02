@@ -137,12 +137,59 @@ def mfa_setup_view(request):
             status=400,
         )
 
-    user = _get_user(data.get("username"))
+    pending_user_id = request.session.get("mfa_pending_user_id")
 
-    if user is None:
+    if not pending_user_id:
         return JsonResponse(
-            {"error": "Usuario no encontrado."},
-            status=404,
+            {
+                "error": (
+                    "No existe un desafío de autenticación pendiente. "
+                    "Inicie sesión nuevamente."
+                ),
+            },
+            status=401,
+        )
+
+    pending_at_raw = request.session.get("mfa_pending_at")
+
+    try:
+        pending_at = timezone.datetime.fromisoformat(pending_at_raw)
+        challenge_age = (timezone.now() - pending_at).total_seconds()
+    except (TypeError, ValueError):
+        challenge_age = MFA_CHALLENGE_TTL_SECONDS + 1
+
+    if challenge_age < 0 or challenge_age > MFA_CHALLENGE_TTL_SECONDS:
+        request.session.pop("mfa_pending_user_id", None)
+        request.session.pop("mfa_pending_at", None)
+        request.session.pop("mfa_failed_attempts", None)
+        request.session.modified = True
+
+        return JsonResponse(
+            {
+                "error": (
+                    "El desafío de autenticación expiró. "
+                    "Inicie sesión nuevamente."
+                ),
+            },
+            status=401,
+        )
+
+    try:
+        user = User.objects.get(
+            pk=pending_user_id,
+            is_active=True,
+        )
+    except User.DoesNotExist:
+        request.session.pop("mfa_pending_user_id", None)
+        request.session.pop("mfa_pending_at", None)
+        request.session.pop("mfa_failed_attempts", None)
+        request.session.modified = True
+
+        return JsonResponse(
+            {
+                "error": "El desafío de autenticación ya no es válido.",
+            },
+            status=401,
         )
 
     mfa, _ = UserMFA.objects.get_or_create(user=user)
