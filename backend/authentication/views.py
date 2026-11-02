@@ -16,6 +16,9 @@ from .mfa_crypto import (
 from .models import UserMFA
 
 
+MFA_CHALLENGE_TTL_SECONDS = 300
+
+
 def _read_json(request):
     try:
         return json.loads(request.body or "{}")
@@ -205,6 +208,27 @@ def mfa_verify_view(request):
             {
                 "verified": False,
                 "error": "No existe un desafío MFA pendiente.",
+            },
+            status=401,
+        )
+
+    pending_at_raw = request.session.get("mfa_pending_at")
+
+    try:
+        pending_at = timezone.datetime.fromisoformat(pending_at_raw)
+        challenge_age = (timezone.now() - pending_at).total_seconds()
+    except (TypeError, ValueError):
+        challenge_age = MFA_CHALLENGE_TTL_SECONDS + 1
+
+    if challenge_age < 0 or challenge_age > MFA_CHALLENGE_TTL_SECONDS:
+        request.session.pop("mfa_pending_user_id", None)
+        request.session.pop("mfa_pending_at", None)
+        request.session.modified = True
+
+        return JsonResponse(
+            {
+                "verified": False,
+                "error": "El desafío MFA expiró. Inicie sesión nuevamente.",
             },
             status=401,
         )
