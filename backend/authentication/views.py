@@ -17,6 +17,7 @@ from .models import UserMFA
 
 
 MFA_CHALLENGE_TTL_SECONDS = 300
+MFA_MAX_FAILED_ATTEMPTS = 5
 
 
 def _read_json(request):
@@ -106,6 +107,7 @@ def login_view(request):
     # autenticado. Guardamos únicamente un desafío MFA pendiente.
     request.session["mfa_pending_user_id"] = user.pk
     request.session["mfa_pending_at"] = timezone.now().isoformat()
+    request.session["mfa_failed_attempts"] = 0
     request.session.modified = True
 
     return JsonResponse(
@@ -223,6 +225,7 @@ def mfa_verify_view(request):
     if challenge_age < 0 or challenge_age > MFA_CHALLENGE_TTL_SECONDS:
         request.session.pop("mfa_pending_user_id", None)
         request.session.pop("mfa_pending_at", None)
+        request.session.pop("mfa_failed_attempts", None)
         request.session.modified = True
 
         return JsonResponse(
@@ -241,6 +244,7 @@ def mfa_verify_view(request):
     except User.DoesNotExist:
         request.session.pop("mfa_pending_user_id", None)
         request.session.pop("mfa_pending_at", None)
+        request.session.pop("mfa_failed_attempts", None)
         return JsonResponse(
             {
                 "verified": False,
@@ -283,10 +287,34 @@ def mfa_verify_view(request):
     )
 
     if not verified:
+        failed_attempts = request.session.get("mfa_failed_attempts", 0) + 1
+        request.session["mfa_failed_attempts"] = failed_attempts
+        request.session.modified = True
+
+        if failed_attempts >= MFA_MAX_FAILED_ATTEMPTS:
+            request.session.pop("mfa_pending_user_id", None)
+            request.session.pop("mfa_pending_at", None)
+            request.session.pop("mfa_failed_attempts", None)
+            request.session.modified = True
+
+            return JsonResponse(
+                {
+                    "verified": False,
+                    "error": (
+                        "Se alcanzó el máximo de intentos MFA. "
+                        "Inicie sesión nuevamente."
+                    ),
+                },
+                status=401,
+            )
+
         return JsonResponse(
             {
                 "verified": False,
                 "error": "Código MFA inválido o expirado.",
+                "attempts_remaining": (
+                    MFA_MAX_FAILED_ATTEMPTS - failed_attempts
+                ),
             },
             status=401,
         )
@@ -305,6 +333,7 @@ def mfa_verify_view(request):
     auth_login(request, user)
     request.session.pop("mfa_pending_user_id", None)
     request.session.pop("mfa_pending_at", None)
+    request.session.pop("mfa_failed_attempts", None)
     request.session.modified = True
 
     return JsonResponse(
