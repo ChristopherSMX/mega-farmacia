@@ -396,18 +396,15 @@ def mfa_verify_view(request):
 
 @require_GET
 def mfa_status_view(request):
-    username = str(
-        request.GET.get("username", "")
-    ).strip()
-
-    user = _get_user(username)
-
-    if user is None:
+    if not request.user.is_authenticated:
         return JsonResponse(
-            {"error": "Usuario no encontrado."},
-            status=404,
+            {
+                "error": "Autenticación requerida.",
+            },
+            status=401,
         )
 
+    user = request.user
     mfa = UserMFA.objects.filter(user=user).first()
 
     if mfa is None:
