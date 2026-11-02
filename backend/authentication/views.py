@@ -112,7 +112,8 @@ def login_view(request):
 
     return JsonResponse(
         {
-            "authenticated": True,
+            "authenticated": False,
+            "credentials_valid": True,
             "mfa_required": True,
             "mfa_configured": bool(
                 mfa
