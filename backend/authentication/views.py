@@ -1,7 +1,7 @@
 import json
 
 import pyotp
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils import timezone
@@ -99,6 +99,12 @@ def login_view(request):
 
     mfa = UserMFA.objects.filter(user=user).first()
 
+    # La contraseña ya fue validada, pero el usuario todavía no está
+    # autenticado. Guardamos únicamente un desafío MFA pendiente.
+    request.session["mfa_pending_user_id"] = user.pk
+    request.session["mfa_pending_at"] = timezone.now().isoformat()
+    request.session.modified = True
+
     return JsonResponse(
         {
             "authenticated": True,
@@ -191,13 +197,32 @@ def mfa_verify_view(request):
             status=400,
         )
 
-    user = _get_user(data.get("username"))
+    pending_user_id = request.session.get("mfa_pending_user_id")
     code = str(data.get("code", "")).strip().replace(" ", "")
 
-    if user is None:
+    if not pending_user_id:
         return JsonResponse(
-            {"verified": False, "error": "Usuario no encontrado."},
-            status=404,
+            {
+                "verified": False,
+                "error": "No existe un desafío MFA pendiente.",
+            },
+            status=401,
+        )
+
+    try:
+        user = User.objects.get(
+            pk=pending_user_id,
+            is_active=True,
+        )
+    except User.DoesNotExist:
+        request.session.pop("mfa_pending_user_id", None)
+        request.session.pop("mfa_pending_at", None)
+        return JsonResponse(
+            {
+                "verified": False,
+                "error": "El desafío MFA ya no es válido.",
+            },
+            status=401,
         )
 
     if not code or not code.isdigit() or len(code) != 6:
@@ -250,6 +275,13 @@ def mfa_verify_view(request):
             "last_verified_at",
         ]
     )
+
+    # El segundo factor fue validado. Ahora sí se crea la sesión
+    # autenticada y se elimina el desafío MFA pendiente.
+    auth_login(request, user)
+    request.session.pop("mfa_pending_user_id", None)
+    request.session.pop("mfa_pending_at", None)
+    request.session.modified = True
 
     return JsonResponse(
         {
