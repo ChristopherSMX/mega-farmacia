@@ -1,4 +1,5 @@
 import json
+from datetime import timedelta
 
 import pyotp
 from django.contrib.auth import authenticate, login as auth_login
@@ -18,6 +19,7 @@ from .models import UserMFA
 
 MFA_CHALLENGE_TTL_SECONDS = 300
 MFA_MAX_FAILED_ATTEMPTS = 5
+MFA_LOCKOUT_SECONDS = 900
 
 
 def _read_json(request):
@@ -340,6 +342,33 @@ def mfa_verify_view(request):
             status=404,
         )
 
+    if mfa.locked_until and mfa.locked_until > timezone.now():
+        request.session.pop("mfa_pending_user_id", None)
+        request.session.pop("mfa_pending_at", None)
+        request.session.pop("mfa_failed_attempts", None)
+        request.session.modified = True
+
+        return JsonResponse(
+            {
+                "verified": False,
+                "error": (
+                    "La verificación MFA está temporalmente bloqueada. "
+                    "Intente nuevamente más tarde."
+                ),
+            },
+            status=423,
+        )
+
+    if mfa.locked_until and mfa.locked_until <= timezone.now():
+        mfa.failed_attempts = 0
+        mfa.locked_until = None
+        mfa.save(
+            update_fields=[
+                "failed_attempts",
+                "locked_until",
+            ]
+        )
+
     try:
         secret = decrypt_totp_secret(mfa.secret_encrypted)
     except MFAEncryptionError as exc:
@@ -364,11 +393,20 @@ def mfa_verify_view(request):
     )
 
     if not verified:
-        failed_attempts = request.session.get("mfa_failed_attempts", 0) + 1
-        request.session["mfa_failed_attempts"] = failed_attempts
-        request.session.modified = True
+        mfa.failed_attempts += 1
 
-        if failed_attempts >= MFA_MAX_FAILED_ATTEMPTS:
+        if mfa.failed_attempts >= MFA_MAX_FAILED_ATTEMPTS:
+            mfa.locked_until = (
+                timezone.now()
+                + timedelta(seconds=MFA_LOCKOUT_SECONDS)
+            )
+            mfa.save(
+                update_fields=[
+                    "failed_attempts",
+                    "locked_until",
+                ]
+            )
+
             request.session.pop("mfa_pending_user_id", None)
             request.session.pop("mfa_pending_at", None)
             request.session.pop("mfa_failed_attempts", None)
@@ -379,18 +417,20 @@ def mfa_verify_view(request):
                     "verified": False,
                     "error": (
                         "Se alcanzó el máximo de intentos MFA. "
-                        "Inicie sesión nuevamente."
+                        "La verificación está bloqueada temporalmente."
                     ),
                 },
-                status=401,
+                status=423,
             )
+
+        mfa.save(update_fields=["failed_attempts"])
 
         return JsonResponse(
             {
                 "verified": False,
-                "error": "Código MFA inválido o expirado.",
+                "error": "Código MFA inválido, expirado o ya utilizado.",
                 "attempts_remaining": (
-                    MFA_MAX_FAILED_ATTEMPTS - failed_attempts
+                    MFA_MAX_FAILED_ATTEMPTS - mfa.failed_attempts
                 ),
             },
             status=401,
@@ -399,11 +439,15 @@ def mfa_verify_view(request):
     mfa.is_enabled = True
     mfa.last_verified_at = timezone.now()
     mfa.last_accepted_totp_counter = accepted_counter
+    mfa.failed_attempts = 0
+    mfa.locked_until = None
     mfa.save(
         update_fields=[
             "is_enabled",
             "last_verified_at",
             "last_accepted_totp_counter",
+            "failed_attempts",
+            "locked_until",
         ]
     )
 

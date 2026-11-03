@@ -23,6 +23,12 @@ class UserMFA(models.Model):
             "se utiliza para impedir la reutilización de códigos."
         ),
     )
+    failed_attempts = models.PositiveSmallIntegerField(default=0)
+    locked_until = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha y hora hasta la que la verificación MFA está bloqueada.",
+    )
 
     def __str__(self):
         return f"MFA de {self.user.get_username()}"
