@@ -29,6 +29,12 @@ class UserMFA(models.Model):
         blank=True,
         help_text="Fecha y hora hasta la que la verificación MFA está bloqueada.",
     )
+    login_failed_attempts = models.PositiveSmallIntegerField(default=0)
+    login_locked_until = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha y hora hasta la que el inicio de sesión está bloqueado.",
+    )
 
     def __str__(self):
         return f"MFA de {self.user.get_username()}"

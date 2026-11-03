@@ -21,6 +21,9 @@ MFA_CHALLENGE_TTL_SECONDS = 300
 MFA_MAX_FAILED_ATTEMPTS = 5
 MFA_LOCKOUT_SECONDS = 900
 
+LOGIN_MAX_FAILED_ATTEMPTS = 5
+LOGIN_LOCKOUT_SECONDS = 900
+
 
 def _read_json(request):
     try:
@@ -48,14 +51,17 @@ def _verify_totp_and_get_counter(totp, code, valid_window=1):
     return None
 
 
-def _get_user(username):
-    username = str(username or "").strip()
+def _get_user(identifier):
+    identifier = str(identifier or "").strip()
 
-    if not username:
+    if not identifier:
         return None
 
     try:
-        return User.objects.get(username__iexact=username)
+        if "@" in identifier:
+            return User.objects.get(email__iexact=identifier)
+
+        return User.objects.get(username__iexact=identifier)
     except (User.DoesNotExist, User.MultipleObjectsReturned):
         return None
 
@@ -86,25 +92,82 @@ def login_view(request):
             status=400,
         )
 
+    account = _get_user(username)
+    account_mfa = None
+
+    if account is not None:
+        account_mfa, _ = UserMFA.objects.get_or_create(user=account)
+
+    if (
+        account_mfa
+        and account_mfa.login_locked_until
+        and account_mfa.login_locked_until > timezone.now()
+    ):
+        return JsonResponse(
+            {
+                "authenticated": False,
+                "error": (
+                    "El inicio de sesión está temporalmente bloqueado. "
+                    "Intente nuevamente más tarde."
+                ),
+            },
+            status=423,
+        )
+
+    if (
+        account_mfa
+        and account_mfa.login_locked_until
+        and account_mfa.login_locked_until <= timezone.now()
+    ):
+        account_mfa.login_failed_attempts = 0
+        account_mfa.login_locked_until = None
+        account_mfa.save(
+            update_fields=[
+                "login_failed_attempts",
+                "login_locked_until",
+            ]
+        )
+
     user = authenticate(
         request,
-        username=username,
+        username=account.username if account is not None else username,
         password=password,
     )
 
-    if user is None and "@" in username:
-        try:
-            account = User.objects.get(email__iexact=username)
-
-            user = authenticate(
-                request,
-                username=account.username,
-                password=password,
-            )
-        except (User.DoesNotExist, User.MultipleObjectsReturned):
-            user = None
-
     if user is None:
+        if account_mfa is not None:
+            account_mfa.login_failed_attempts += 1
+
+            if (
+                account_mfa.login_failed_attempts
+                >= LOGIN_MAX_FAILED_ATTEMPTS
+            ):
+                account_mfa.login_locked_until = (
+                    timezone.now()
+                    + timedelta(seconds=LOGIN_LOCKOUT_SECONDS)
+                )
+                account_mfa.save(
+                    update_fields=[
+                        "login_failed_attempts",
+                        "login_locked_until",
+                    ]
+                )
+
+                return JsonResponse(
+                    {
+                        "authenticated": False,
+                        "error": (
+                            "El inicio de sesión está temporalmente bloqueado. "
+                            "Intente nuevamente más tarde."
+                        ),
+                    },
+                    status=423,
+                )
+
+            account_mfa.save(
+                update_fields=["login_failed_attempts"]
+            )
+
         return JsonResponse(
             {
                 "authenticated": False,
@@ -123,6 +186,19 @@ def login_view(request):
         )
 
     mfa = UserMFA.objects.filter(user=user).first()
+
+    if mfa is not None and (
+        mfa.login_failed_attempts != 0
+        or mfa.login_locked_until is not None
+    ):
+        mfa.login_failed_attempts = 0
+        mfa.login_locked_until = None
+        mfa.save(
+            update_fields=[
+                "login_failed_attempts",
+                "login_locked_until",
+            ]
+        )
 
     # La contraseña ya fue validada, pero el usuario todavía no está
     # autenticado. Guardamos únicamente un desafío MFA pendiente.
