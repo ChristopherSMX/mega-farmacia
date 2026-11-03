@@ -2,7 +2,11 @@ import json
 from datetime import timedelta
 
 import pyotp
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import (
+    authenticate,
+    login as auth_login,
+    logout as auth_logout,
+)
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils import timezone
@@ -219,6 +223,20 @@ def login_view(request):
             ),
             "username": user.username,
             "message": "Credenciales válidas. Se requiere MFA.",
+        },
+        status=200,
+    )
+
+
+@csrf_exempt
+@require_POST
+def logout_view(request):
+    auth_logout(request)
+
+    return JsonResponse(
+        {
+            "authenticated": False,
+            "message": "Sesión cerrada correctamente.",
         },
         status=200,
     )
