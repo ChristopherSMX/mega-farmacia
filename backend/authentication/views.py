@@ -603,3 +603,14 @@ def mfa_status_view(request):
         },
         status=200,
     )
+
+
+from django.middleware.csrf import get_token
+
+@require_GET
+def csrf_token_view(request):
+    response = JsonResponse({
+        "csrfToken": get_token(request)
+    })
+    response["Cache-Control"] = "no-store"
+    return response
